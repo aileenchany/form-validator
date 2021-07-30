@@ -25,37 +25,25 @@ function isValidEmail(email) {
   return re.test(String(email).toLowerCase());
 }
 
+// Check required fields
+function checkRequired(inputArr) {
+  inputArr.forEach(function (input) {
+    if (input.value.trim() === '') {
+      showError(input, `${getFieldName(input)} is required`);
+    } else {
+      showSuccess(input);
+    }
+  });
+}
+
+// Get fieldName - upper cases the first letter of the input id
+function getFieldName(input) {
+  return input.id.charAt(0).toUpperCase() + input.id.slice(1);
+}
+
 // Event listeners
 form.addEventListener('submit', function (event) {
   event.preventDefault(); // prevent default behavior
 
-  // validate username
-  if (username.value === '') {
-    showError(username, 'Username is required'); // function call
-  } else {
-    showSuccess(username); // function call
-  }
-
-  // validate email
-  if (email.value === '') {
-    showError(email, 'Email is required'); // function call
-  } else if (isValidEmail(email.value)) {
-    showError(username, 'Email is not valid'); // function call
-  } else {
-    showSuccess(email); // function call
-  }
-
-  // validate password
-  if (password.value === '') {
-    showError(password, 'Password is required'); // function call
-  } else {
-    showSuccess(password); // function call
-  }
-
-  // validate password 2
-  if (password2.value === '') {
-    showError(password2, 'Password 2 is required'); // function call
-  } else {
-    showSuccess(password2); // function call
-  }
+  checkRequired([username, email, password, password2]); // Call function and pass an array to validate input fields
 })
